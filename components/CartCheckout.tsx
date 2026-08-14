@@ -86,9 +86,6 @@ export default function CartCheckout({ slug }: { slug: string }) {
               )}
               <div className="flex-1 min-w-0">
                 <div className="font-semibold text-sm truncate">{item.name}</div>
-                {item.serialized && item.serialCode && (
-                  <div className="text-xs text-gray-500">Serial: {item.serialCode}</div>
-                )}
                 <div className="text-sm text-gray-500">
                   {item.quantity} × {formatCOP(item.price)}
                 </div>

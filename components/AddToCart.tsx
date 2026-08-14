@@ -7,19 +7,16 @@ import type { Product } from "@/lib/types";
 export default function AddToCart({ product }: { product: Product }) {
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
-  const [serialCode, setSerialCode] = useState<string>(
-    product.availableUnits[0]?.serialCode || ""
-  );
   const [added, setAdded] = useState(false);
 
   const maxQty = product.serialized ? 1 : Math.max(1, product.currentStock);
   const canAdd =
     product.inStock &&
-    (!product.serialized || serialCode.length > 0) &&
+    (!product.serialized || product.availableUnits.length > 0) &&
     quantity > 0;
 
   const handleAdd = () => {
-    const unit = product.availableUnits.find((u) => u.serialCode === serialCode);
+    const unit = product.availableUnits[0];
     addItem({
       productId: product.id,
       name: product.name,
@@ -38,21 +35,10 @@ export default function AddToCart({ product }: { product: Product }) {
     <div className="space-y-4">
       {product.serialized ? (
         <div>
-          <label className="block text-sm font-semibold mb-2">
-            Elige tu unidad (código serial):
-          </label>
           {product.availableUnits.length > 0 ? (
-            <select
-              value={serialCode}
-              onChange={(e) => setSerialCode(e.target.value)}
-              className="w-full rounded-xl border border-gray-300 px-3 py-2 text-sm"
-            >
-              {product.availableUnits.map((u) => (
-                <option key={u.id} value={u.serialCode}>
-                  {u.serialCode}
-                </option>
-              ))}
-            </select>
+            <p className="text-sm text-gray-500">
+              Unidad única — se asigna automáticamente al confirmar tu pedido.
+            </p>
           ) : (
             <p className="text-sm text-red-500">No hay unidades disponibles.</p>
           )}
