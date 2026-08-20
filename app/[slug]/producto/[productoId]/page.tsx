@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import AddToCart from "@/components/AddToCart";
+import ProductGallery from "@/components/ProductGallery";
 import { getProduct } from "@/lib/api";
 import { formatCOP } from "@/lib/format";
 
@@ -40,30 +41,10 @@ export default async function ProductPage({
         {/* Galería */}
         <div>
           {gallery.length > 0 ? (
-            <div className="rounded-2xl overflow-hidden border border-gray-200 bg-gray-50">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={gallery[0]}
-                alt={product.name}
-                className="w-full aspect-square object-cover"
-              />
-            </div>
+            <ProductGallery photos={gallery} productName={product.name} />
           ) : (
             <div className="rounded-2xl border border-gray-200 bg-gray-50 aspect-square flex items-center justify-center text-6xl text-gray-300">
               🛍
-            </div>
-          )}
-          {gallery.length > 1 && (
-            <div className="grid grid-cols-4 gap-2 mt-2">
-              {gallery.map((img, i) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  key={i}
-                  src={img}
-                  alt=""
-                  className="aspect-square object-cover rounded-lg border border-gray-200"
-                />
-              ))}
             </div>
           )}
         </div>
